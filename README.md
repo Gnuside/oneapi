@@ -23,7 +23,7 @@ Prepare the message:
 Send the message:
 
     result = sms_client.send_sms(sms)
-    
+
     # Store the client correlator to be able to query for the delivery status later:
     client_correlator = result.client_correlator
 
@@ -120,6 +120,23 @@ The subscription to recive inbound messages can be set up on our site.
 When the inbound message notification is pushed to your server as a HTTP POST request, you must process the body of the message with the following code:
 
     inbound_messages = OneApi::SmsClient.unserialize_inbound_messages(http_body)
+
+
+Testing Library
+---------------
+
+To test the library, run :
+
+    API_USERNAME="Toto" API_PASSWORD="Titi" bundle exec ruby test/test.rb
+
+API_USERNAME and API_PASSWORD must be valid account credentials for the Infobip API. For more information, go to https://dev.infobip.com/docs/getting-started
+
+You must also provide a text file containing sms numbers where you can receive messages (one by line) :
+
+    echo "33123456789" > test-numbers.txt
+    echo "33012345678" >> test-numbers.txt
+
+These numbers must be in international format (used by the API).
 
 
 License

@@ -3,6 +3,27 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'minitest/autorun'
 require 'oneapi/client'
 
+API_USERNAME = ENV["API_USERNAME"]
+API_PASSWORD = ENV["API_PASSWORD"]
+
+if (API_USERNAME.nil? || API_USERNAME == '') || (API_PASSWORD.nil? || API_PASSWORD == '') then
+  raise "set environement variable API_USERNAME and API_PASSWORD with an Infobip valid account (see https://dev.infobip.com/docs/getting-started)"
+end
+
+
+NUMBERS = File::readlines(File.expand_path('../../test-numbers.txt', __FILE__))
+
+puts ""
+puts "Testing API with #{API_USERNAME} / #{API_PASSWORD} credentials"
+puts ""
+puts "List of numbers used:"
+NUMBERS.each { |num|
+  puts " - #{num}"
+}
+puts ""
+puts "-------"
+puts ""
+
 class OneApiTest < MiniTest::Unit::TestCase
 
     def test_empty
@@ -68,4 +89,9 @@ class OneApiTest < MiniTest::Unit::TestCase
         assert_equal("DeliveryUncertain2", object.delivery_info[1].delivery_status)
     end
 
+    def test_login
+      sms_client = OneApi::SmsClient.new(API_USERNAME, API_PASSWORD)
+      oneapi_authentication = sms_client.login()
+      assert(oneapi_authentication)
+    end
 end
