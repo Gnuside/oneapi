@@ -11,7 +11,7 @@ module OneApi
 
     class OneApiClient
 
-        # If true -- an exception will be thrown on error, otherwise, you have 
+        # If true -- an exception will be thrown on error, otherwise, you have
         # to check the is_success and exception methods on resulting objects.
         attr_accessor :raise_exceptions
 
@@ -53,7 +53,7 @@ module OneApi
         end
 
         def prepare_headers(request)
-            request["User-Agent"] = "OneApi-ruby-#{OneApi::VERSION}"
+            request["User-Agent"] = "OneApi-#{OneApi::VERSION}"
             request["Content-Type"] = "application/json"
             if @oneapi_authentication and @oneapi_authentication.ibsso_token
                 request['Authorization'] = "IBSSO #{@oneapi_authentication.ibsso_token}"
@@ -235,7 +235,7 @@ module OneApi
             }
 
             is_success, result = execute_GET(
-                    '/1/smsmessaging/inbound/registrations/INBOUND/messages', 
+                    '/1/smsmessaging/inbound/registrations/INBOUND/messages',
                     params
             )
 
@@ -302,7 +302,7 @@ module OneApi
 
         def get_account_balance()
             is_success, result = execute_GET('/1/customerProfile/balance')
-            
+
             return convert_from_json(AccountBalance, result, ! is_success)
         end
 

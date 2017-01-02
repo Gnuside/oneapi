@@ -1,6 +1,8 @@
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'minitest/autorun'
 require 'oneapi/client'
- 
+
 class OneApiTest < MiniTest::Unit::TestCase
 
     def test_empty
@@ -20,7 +22,7 @@ class OneApiTest < MiniTest::Unit::TestCase
         request_error = OneApi::JSONUtils.get(json, 'requestError.serviceException.text')
         assert_equal('Request URI missing required component(s): ', request_error)
     end
- 
+
     def test_json_get_hash_result
         json = '{"requestError":{"serviceException":{"text":"Request URI missing required component(s): ","messageId":"SVC0002","variables":[""]},"policyException":null}}'
         value = OneApi::JSONUtils.get(json, 'requestError.serviceException')
@@ -53,7 +55,7 @@ class OneApiTest < MiniTest::Unit::TestCase
         assert_equal(sms_exception.message_id, 'SVC0002')
         assert_equal(sms_exception.text, 'Request URI missing required component(s): ')
     end
- 
+
     def test_exception_object_array
         json = '{"deliveryInfoList":{"deliveryInfo":[{"address":null,"deliveryStatus":"DeliveryUncertain1"},{"address":null,"deliveryStatus":"DeliveryUncertain2"}],"resourceURL":"http://oneapi.infobip.com/1/smsmessaging/outbound/TODO/requests/28drx7ypaqr/deliveryInfos"}}'
 
